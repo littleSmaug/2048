@@ -2,18 +2,16 @@
 #define FUNCTIONS_H
 
 #include <iostream>
-#include <vector>
 #include <QVector>
 #include <iostream>
 #include <string>
+#include <time.h>
 using namespace std;
 
-vector<int> moveleft(vector<int> x);
-vector<int> move(int x0,int x1);
-QVector<int> turn(QVector<int> x);
-QVector<int> reverse(QVector<int> x);
-QVector<int> randomize(QVector<int> temp);
-string ischangedfunc(QVector<int> check, QVector<int> temp, string ischanged);
+QVector<int> moveleft(QVector<int> &x);
+QVector<int> move(int &x0,int &x1);
+QVector<int> reverse(QVector<int> &x);
+bool ischangedfunc(QVector<int> &check, QVector<int> &temp, bool ischanged);
 
 
 #endif // FUNCTIONS_H

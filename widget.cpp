@@ -27,16 +27,7 @@ void Widget::paintEvent(QPaintEvent *pe)
     desk.setBrush(QColor(Qt::black));
     desk.drawRect(0,0,400,400);
     int n=100; // розмір вікна 400на 400. 100 на 100- 1шматок поля, де малюватимуться штуки
-    desk.setPen(QPen(Qt::green));
-    desk.drawLine(0,n,4*n,n);
-    desk.drawLine(0,2*n,4*n,2*n);
-    desk.drawLine(0,3*n,4*n,3*n);
-    desk.drawLine(0,4*n,4*n,4*n);
 
-    desk.drawLine(n,0,n,4*n);
-    desk.drawLine(2*n,0,2*n,4*n);
-    desk.drawLine(3*n,0,3*n,4*n);
-    desk.drawLine(4*n,0,4*n,4*n);
     // інакше кажучи, перший параметр це початок малювання по x,
     //другий по y, третій довжина по х, четвертий довжина по у.
 
@@ -102,10 +93,6 @@ void Widget::paintEvent(QPaintEvent *pe)
             desk.drawImage(QRect(i*n,0,n,n),number2048);
             break;
         }
-
-    }
-    for(int i=0;i<4;++i)
-    {
         switch(y[i])
         {
         case 2:
@@ -142,10 +129,6 @@ void Widget::paintEvent(QPaintEvent *pe)
             desk.drawImage(QRect(i*n,n,n,n),number2048);
             break;
         }
-
-    }
-    for(int i=0;i<4;++i)
-    {
         switch(z[i])
         {
         case 2:
@@ -182,87 +165,80 @@ void Widget::paintEvent(QPaintEvent *pe)
             desk.drawImage(QRect(i*n,2*n,n,n),number2048);
             break;
         }
-        for(int i=0;i<4;++i)
+        switch(k[i])
         {
-            switch(k[i])
-            {
-            case 2:
-                desk.drawImage(QRect(i*n,3*n,n,n),number2);
-                break;
-            case 4:
-                desk.drawImage(QRect(i*n,3*n,n,n),number4);
-                break;
-            case 8:
-                desk.drawImage(QRect(i*n,3*n,n,n),number8);
-                break;
-            case 16:
-                desk.drawImage(QRect(i*n,3*n,n,n),number16);
-                break;
-            case 32:
-                desk.drawImage(QRect(i*n,3*n,n,n),number32);
-                break;
-            case 64:
-                desk.drawImage(QRect(i*n,3*n,n,n),number64);
-                break;
-            case 128:
-                desk.drawImage(QRect(i*n,3*n,n,n),number128);
-                break;
-            case 256:
-                desk.drawImage(QRect(i*n,3*n,n,n),number256);
-                break;
-            case 512:
-                desk.drawImage(QRect(i*n,3*n,n,n),number512);
-                break;
-            case 1024:
-                desk.drawImage(QRect(i*n,3*n,n,n),number1024);
-                break;
-            case 2048:
-                desk.drawImage(QRect(i*n,3*n,n,n),number2048);
-                break;
-            }
-
+        case 2:
+            desk.drawImage(QRect(i*n,3*n,n,n),number2);
+            break;
+        case 4:
+            desk.drawImage(QRect(i*n,3*n,n,n),number4);
+            break;
+        case 8:
+            desk.drawImage(QRect(i*n,3*n,n,n),number8);
+            break;
+        case 16:
+            desk.drawImage(QRect(i*n,3*n,n,n),number16);
+            break;
+        case 32:
+            desk.drawImage(QRect(i*n,3*n,n,n),number32);
+            break;
+        case 64:
+            desk.drawImage(QRect(i*n,3*n,n,n),number64);
+            break;
+        case 128:
+            desk.drawImage(QRect(i*n,3*n,n,n),number128);
+            break;
+        case 256:
+            desk.drawImage(QRect(i*n,3*n,n,n),number256);
+            break;
+        case 512:
+            desk.drawImage(QRect(i*n,3*n,n,n),number512);
+            break;
+        case 1024:
+            desk.drawImage(QRect(i*n,3*n,n,n),number1024);
+            break;
+        case 2048:
+            desk.drawImage(QRect(i*n,3*n,n,n),number2048);
+            break;
         }
 
     }
-
-
 }
 void Widget::keyPressEvent(QKeyEvent *event)
 {
-
-    string ischanged;
+    bool ischanged=false;
 
     if(event->key()==Qt::Key_Up)
     {
        ischanged=actualturn("UP");
-       randomAll(ischanged);
+       if(ischanged==true)
+           random(1);
         update();
     }
 
     if(event->key()==Qt::Key_Down)
     {
         ischanged=actualturn("DOWN");
-        randomAll(ischanged);
+        if(ischanged==true)
+            random(1);
         update();
     }
     if(event->key()==Qt::Key_Left)
     {
         ischanged=actualturn("LEFT");
-        randomAll(ischanged);
+        if(ischanged==true)
+            random(1);
         update();
 
     }
     if(event->key()==Qt::Key_Right)
     {
         ischanged=actualturn("RIGHT");
-        randomAll(ischanged);
+        if(ischanged==true)
+            random(1);
         update();
     }
-
-
     update();
-
-
 }
 
 void Widget::reverseY(QVector<int>  temp,int j) // повертає із стовпчика значення назад  у вектори рядків.
@@ -281,12 +257,12 @@ QVector<int> Widget::y1( int j) //j- номер стовпчика . форму�
     temp[3]=k[j];
     return temp;
 }
-string Widget::actualturn(string key)
+bool Widget::actualturn(string key)
 {
     int j=0;
     if(key=="UP")
     {
-        j=1;
+       j=1;
     }
     else if (key=="DOWN")
     {
@@ -303,7 +279,7 @@ string Widget::actualturn(string key)
 
     QVector<int> temp(4); // задаємо тимчасовий вектор
     QVector<int> check(4); // задаємо тимчасовий вектор
-    string ischanged;
+    bool ischanged=false;
 
 
     switch(j)
@@ -311,14 +287,10 @@ string Widget::actualturn(string key)
     case 1:
         for(int i=0;i<4;++i)
         {
-
-        }
-        for(int i=0;i<4;++i)
-        {
             temp=y1(i);           // передаємо в нього значення першого стовпчика
             check=y1(i);          //визначаємо вектоор для перевірки, чи була зроблена хоч 1 зміна
-            temp=turn(temp);      // робимо хід для даного стовпчика
-            if(ischanged !="true")
+            temp=moveleft(temp);      // робимо хід для даного стовпчика
+            if(ischanged !=true)
                 ischanged= ischangedfunc(check,temp,ischanged); //перевірка зміни для рандомайзера
             reverseY(temp,i);     // повертаємо значення в рядки
             temp.fill(0);
@@ -331,9 +303,9 @@ string Widget::actualturn(string key)
             temp=y1(i);             // передаємо в нього значення першого стовпчика
             check=y1(i);          //визначаємо вектоор для перевірки, чи була зроблена хоч 1 зміна
             temp=reverse(temp);     // перевертаємо його, заради коректної роботи turn
-            temp=turn(temp);        // хід
+            temp=moveleft(temp);        // хід
             temp=reverse(temp);     // перевертаємо назад
-            if(ischanged !="true")
+            if(ischanged !=true)
                 ischanged= ischangedfunc(check,temp,ischanged); //перевірка зміни для рандомайзера
             reverseY(temp,i);       //передаємо значення назад в вектори рядків
             temp.fill(0);
@@ -344,8 +316,8 @@ string Widget::actualturn(string key)
         //для першого стовпчика хід
         temp=x;                     // передаємо рядок в тимчасовий вектор
         check=x;                    //визначаємо вектоор для перевірки, чи була зроблена хоч 1 зміна
-        temp=turn(temp);            // хід
-        if(ischanged !="true")
+        temp=moveleft(temp);            // хід
+        if(ischanged !=true)
             ischanged= ischangedfunc(check,temp,ischanged); //перевірка зміни для рандомайзера
         x=temp;                     // передаємо значення назад в рядок
 
@@ -354,8 +326,8 @@ string Widget::actualturn(string key)
         check.fill(0);
         check=y;
         temp=y;
-        temp=turn(temp);
-        if(ischanged !="true")
+        temp=moveleft(temp);
+        if(ischanged !=true)
             ischanged= ischangedfunc(check,temp,ischanged); //перевірка зміни для рандомайзера
         y=temp;
 
@@ -364,8 +336,8 @@ string Widget::actualturn(string key)
         check.fill(0);
         temp=z;
         check=z;
-        temp=turn(temp);
-        if(ischanged !="true")
+        temp=moveleft(temp);
+        if(ischanged !=true)
             ischanged= ischangedfunc(check,temp,ischanged); //перевірка зміни для рандомайзера
         z=temp;
 
@@ -374,8 +346,8 @@ string Widget::actualturn(string key)
         check.fill(0);
         temp=k;
         check=k;
-        temp=turn(temp);
-        if(ischanged !="true")
+        temp=moveleft(temp);
+        if(ischanged !=true)
             ischanged= ischangedfunc(check,temp,ischanged); //перевірка зміни для рандомайзера
         k=temp;
         break;
@@ -384,9 +356,9 @@ string Widget::actualturn(string key)
         temp=x;                     // передаємо рядок в тимчасовий вектор
         check=x;
         temp=reverse(temp);         // перевертаємо його, заради коректної роботи turn
-        temp=turn(temp);            // хід
+        temp=moveleft(temp);            // хід
         temp=reverse(temp);         // перевертаємо назад
-        if(ischanged !="true")
+        if(ischanged !=true)
             ischanged= ischangedfunc(check,temp,ischanged); //перевірка зміни для рандомайзера
         x=temp;                     // передаємо значення назад в рядок
 
@@ -396,9 +368,9 @@ string Widget::actualturn(string key)
         temp=y;
         check=y;
         temp=reverse(temp);
-        temp=turn(temp);
+        temp=moveleft(temp);
         temp=reverse(temp);
-        if(ischanged !="true")
+        if(ischanged !=true)
             ischanged= ischangedfunc(check,temp,ischanged); //перевірка зміни для рандомайзера
         y=temp;
 
@@ -408,9 +380,9 @@ string Widget::actualturn(string key)
         temp=z;
         check=z;
         temp=reverse(temp);
-        temp=turn(temp);
+        temp=moveleft(temp);
         temp=reverse(temp);
-        if(ischanged !="true")
+        if(ischanged !=true)
             ischanged= ischangedfunc(check,temp,ischanged); //перевірка зміни для рандомайзера
         z=temp;
 
@@ -420,88 +392,146 @@ string Widget::actualturn(string key)
         temp=k;
         check=k;
         temp=reverse(temp);
-        temp=turn(temp);
+        temp=moveleft(temp);
         temp=reverse(temp);
-        if(ischanged !="true")
+        if(ischanged !=true)
             ischanged= ischangedfunc(check,temp,ischanged); //перевірка зміни для рандомайзера
         k=temp;
         break;
     }
     return ischanged;
 }
-void Widget::randomAll(string ischanged)
-{
-    if(ischanged=="true")
-    {
-        QVector<int> temp(4);
-        temp=x;
-
-        temp=randomize(temp); // рандомим штуки.
-        x=temp;
-
-        temp.fill(0);
-        temp=y;
-        temp=randomize(temp); // рандомим штуки.
-        y=temp;
-
-        temp.fill(0);
-        temp=z;
-        temp=randomize(temp); // рандомим штуки.
-        z=temp;
-
-        temp.fill(0);
-        temp=k;
-        temp=randomize(temp); // рандомим штуки.
-        k=temp;
-    }
-
-}
 void Widget::startrandom()
 {
-    int i=0;
+
+    bool notempty=true;
     for(int j=0;j<4;++j)
     {
-        if(x[i]!=0)
-            i++;
-        if(y[i]!=0)
-            i++;
-        if(z[i]!=0)
-            i++;
-        if(k[i]!=0)
-            i++;
-    }
-    if(i==0)
-    {
-        int j=0;
-        int c=0;
-        j=rand()%6;
-        for(int l=0;l<4;++l)
+        if(x[j]!=0)
         {
+            notempty=false;
+            break;
+        }
 
-            switch(j)
-            {
-            case 1:
-                x[l]=2;
-                c++;
-                break;
-            case 5:
-                y[l]=2;
-                c++;
-                break;
-            case 3:
-                z[l]=2;
-                break;
-            case 4:
-                k[l]=2;
-                break;
-             }
-            if(c==2)
-                break;
-
-         }
+        if(y[j]!=0)
+        {
+            notempty=false;
+            break;
+        }
+        if(z[j]!=0)
+        {
+            notempty=false;
+            break;
+        }
+        if(k[j]!=0)
+        {
+            notempty=false;
+            break;
+        }
     }
-
-
-
+    if(notempty==true)
+        random(3);
 }
+void Widget::random(int q)
+{
+    int empty=0;
+    for(int j=0;j<4;++j)
+    {
+        if(x[j]==0)
+        {
+            empty++;
+        }
+
+        if(y[j]==0)
+        {
+            empty++;
+        }
+        if(z[j]==0)
+        {
+            empty++;
+        }
+        if(k[j]==0)
+        {
+            empty++;
+        }
+    }
+    if(empty>2)
+    {
+        int c=0;
+        srand(time(nullptr));
+        while(c!=q)
+        {
+            int j=0;
+
+            j=rand()%15;
+            int i=0;
+            if(j<4&&x[j]==0)
+            {
+                i=rand()%4;
+                if(i==1)
+                    x[j]=4;
+                else
+                    x[j]=2;
+                c++;
+            }
+            if(j>3&&j<8&&y[j-3]==0)
+            {
+                int i=0;
+                i=rand()%4;
+                if(i==1)
+                    y[j-3]=4;
+                else
+                    y[j-3]=2;
+                c++;
+            }
+            if(j>7&&j<12&&z[j-7]==0)
+            {
+                int i=0;
+                i=rand()%4;
+                if(i==1)
+                    z[j-7]=4;
+                else
+                    z[j-7]=2;
+                c++;
+            }
+            if(j>11&&j<16&&k[j-11]==0)
+            {
+                int i=0;
+                i=rand()%4;
+                if(i==1)
+                    k[j-11]=4;
+                else
+                    k[j-11]=2;
+                c++;
+            }
+        }
+    }
+    else if (empty==2||empty==1)
+    {
+        for(int r=0;r<4;++r)
+        {
+            if(x[r]==0)
+            {
+                x[r]=2;
+                break;
+            }
+            if(y[r]==0)
+            {
+                y[r]=2;
+                break;
+            }
+            if(z[r]==0)
+            {
+                z[r]=2;
+                break;
+            }
+            if(k[r]==0)
+            {
+                k[r]=2;
+                break;
+            }
+        }
+    }
+}
+
 

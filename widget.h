@@ -8,7 +8,7 @@
 #include <QKeyEvent>
 #include "functions.h"
 #include <string>
-
+#include <time.h>
 class Widget : public QWidget
 {
     Q_OBJECT
@@ -21,16 +21,17 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
-    public:
+    protected:
     QVector<int> x;
     QVector<int> y;
     QVector<int> z;
     QVector<int> k;
     void reverseY(QVector<int>  temp, int j);
     QVector<int> y1(int j);
-    string actualturn(string key);
-    void randomAll(string ischanged);
+    bool actualturn(string key);
+    void randomAll(bool ischanged);
     void startrandom();
+    void random(int k);
 
     protected:
     virtual void paintEvent(QPaintEvent *pe);
